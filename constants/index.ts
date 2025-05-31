@@ -5,6 +5,7 @@ export const AUTH_TYPE = {
 
 export const DB_COLLECTIONS = {
   USERS: "users",
+  INTERVIEWS: "interviews",
 } as const;
 
 export const mappings = {
