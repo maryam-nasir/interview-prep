@@ -91,8 +91,11 @@ const AuthForm = ({ type }: { type: FormType }) => {
         toast.success("Signed in successfully.");
         router.push(ROUTES.HOME);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error?.code === "auth/email-already-in-use") {
+        toast.error("This email is already in use. Please try another one.");
+        return;
+      }
       toast.error(`An error occurred: ${error}`);
     }
   }
