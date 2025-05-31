@@ -3,6 +3,10 @@ export const AUTH_TYPE = {
   SIGN_UP: "SIGN_UP",
 } as const;
 
+export const DB_COLLECTIONS = {
+  USERS: "users",
+} as const;
+
 export const mappings = {
   "react.js": "react",
   reactjs: "react",
