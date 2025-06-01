@@ -10,6 +10,13 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const { type, role, level, techstack, amount, userid } = await request.json();
+  console.log("Sending to Gemini...");
+  console.log(type);
+  console.log(role);
+  console.log(level);
+  console.log(techstack);
+  console.log(amount);
+  console.log(userid);
 
   try {
     const { text: questions } = await generateText({

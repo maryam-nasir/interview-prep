@@ -1,3 +1,5 @@
+import { CreateWorkflowDTO } from "@vapi-ai/web/dist/api";
+
 export const AUTH_TYPE = {
   SIGN_IN: "SIGN_IN",
   SIGN_UP: "SIGN_UP",
@@ -144,7 +146,7 @@ export const dummyInterviews: Interview[] = [
   },
 ];
 
-export const generator = {
+export const generator: CreateWorkflowDTO = {
   name: "Prepwise_workflow",
   nodes: [
     {
@@ -183,7 +185,7 @@ export const generator = {
             type: "string",
             title: "techstack",
             description:
-              "A list of technologies to cover during the job interview. For example, React, Next.js, Express.js, Node and so on…",
+              "A list of technologies to cover during the job interview. For example, React, Next.js, Express.js, Node and so on...",
           },
           {
             enum: [],
@@ -199,9 +201,9 @@ export const generator = {
           },
         ],
       },
-      messagePlan: {
-        firstMessage: "Hey there!",
-      },
+      // messagePlan: {
+      //   firstMessage: "Hey there!",
+      // },
     },
     {
       name: "conversation_1748695284629",
@@ -219,9 +221,9 @@ export const generator = {
         maxTokens: 1000,
         temperature: 0.7,
       },
-      messagePlan: {
-        firstMessage: "",
-      },
+      // messagePlan: {
+      //   firstMessage: "",
+      // },
     },
     {
       name: "API Request",
@@ -300,9 +302,9 @@ export const generator = {
         maxTokens: 1000,
         temperature: 0.7,
       },
-      messagePlan: {
-        firstMessage: "",
-      },
+      // messagePlan: {
+      //   firstMessage: "",
+      // },
     },
     {
       name: "hangup_1748696049138",
@@ -352,6 +354,6 @@ export const generator = {
       },
     },
   ],
-  globalPrompt:
-    "You are a voice assistant helping with creating new AI interviewers. Your task is to collect data from the user. Remember that this is a voice conversation - do not use any special characters.",
+  // globalPrompt:
+  //   "You are a voice assistant helping with creating new AI interviewers. Your task is to collect data from the user. Remember that this is a voice conversation - do not use any special characters.",
 };
