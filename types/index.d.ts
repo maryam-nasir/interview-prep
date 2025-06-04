@@ -1,3 +1,4 @@
+// Entities
 interface Feedback {
   id: string;
   interviewId: string;
@@ -25,8 +26,16 @@ interface Interview {
   finalized: boolean;
 }
 
+interface User {
+  name: string;
+  email: string;
+  id: string;
+}
+
+// Props Types
+
 interface InterviewCardProps {
-  interviewId?: string;
+  id?: string;
   userId?: string;
   role: string;
   type: string;
@@ -37,6 +46,17 @@ interface InterviewCardProps {
 interface TechIconProps {
   techStack: string[];
 }
+
+interface AgentProps {
+  userName: string;
+  userId?: string;
+  interviewId?: string;
+  feedbackId?: string;
+  type: "generate" | "interview";
+  questions?: string[];
+}
+
+// API / Server Action Params
 
 interface SignInParams {
   email: string;
@@ -50,17 +70,24 @@ interface SignUpParams {
   password: string;
 }
 
-interface User {
-  name: string;
-  email: string;
-  id: string;
+interface GetLatestInterviewsParams {
+  userId: string;
+  limit?: number;
 }
 
-interface AgentProps {
-  userName: string;
-  userId?: string;
-  interviewId?: string;
+interface CreateFeedbackParams {
+  interviewId: string;
+  userId: string;
+  transcript: { role: string; content: string }[];
   feedbackId?: string;
-  type: "generate" | "interview";
-  questions?: string[];
+}
+
+interface GetFeedbackByInterviewIdParams {
+  interviewId: string;
+  userId: string;
+}
+
+interface RouteParams {
+  params: Promise<Record<string, string>>;
+  searchParams: Promise<Record<string, string>>;
 }
