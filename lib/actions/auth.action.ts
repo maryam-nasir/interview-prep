@@ -100,8 +100,6 @@ export async function getCurrentUser(): Promise<User | null> {
       return null;
     }
 
-    console.log("User record:", userRecord.data());
-
     return { ...userRecord.data(), id: userRecord.id } as User;
   } catch (error) {
     console.error("Error:", error);
