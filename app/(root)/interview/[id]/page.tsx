@@ -5,7 +5,6 @@ import TechIcons from "@/components/TechIcons";
 import { ROUTES } from "@/constants/routes";
 import { getCurrentUser } from "@/lib/actions/auth.action";
 import { getInterviewById } from "@/lib/actions/general.action";
-import { getRandomInterviewCover } from "@/lib/utils";
 
 const InterviewPage = async ({
   params,
@@ -24,7 +23,7 @@ const InterviewPage = async ({
         <div className="flex flex-row gap-4 items-center max-sm:flex-col">
           <div className="flex flex-row gap-4 items-center">
             <Image
-              src={getRandomInterviewCover()}
+              src={interview.coverImage}
               alt="cover image"
               width={40}
               height={40}

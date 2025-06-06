@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import Image from "next/image";
-import { getRandomInterviewCover } from "@/lib/utils";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { ROUTES } from "@/constants/routes";
@@ -14,6 +13,7 @@ const InterviewCard = async ({
   type,
   techstack,
   createdAt,
+  coverImage,
 }: InterviewCardProps) => {
   const feedback =
     userId && id
@@ -33,7 +33,7 @@ const InterviewCard = async ({
           </div>
 
           <Image
-            src={getRandomInterviewCover()}
+            src={coverImage}
             alt="cover image"
             width={90}
             height={90}
