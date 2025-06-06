@@ -9,6 +9,7 @@ type InputFieldProps<T extends FieldValues> = {
   label: string;
   placeholder?: string;
   type?: "text" | "email" | "password" | "file";
+  errorMessage?: string;
 };
 
 const InputField = ({
@@ -17,6 +18,7 @@ const InputField = ({
   label,
   placeholder,
   type = "text",
+  errorMessage = "",
 }: InputFieldProps<T>) => {
   return (
     <Controller
@@ -33,7 +35,9 @@ const InputField = ({
               {...field}
             />
           </FormControl>
-          <FormMessage />
+          {errorMessage && (
+            <FormMessage className="text-red-500">{errorMessage}</FormMessage>
+          )}
         </FormItem>
       )}
     />

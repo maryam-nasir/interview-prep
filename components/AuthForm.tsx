@@ -23,9 +23,15 @@ import { signIn, signUp } from "@/lib/actions/auth.action";
 const getAuthFormSchema = (type: FormType) => {
   return z.object({
     name:
-      type === AUTH_TYPE.SIGN_UP ? z.string().min(3) : z.string().optional(),
-    email: z.string().email(),
-    password: z.string().min(6),
+      type === AUTH_TYPE.SIGN_UP
+        ? z
+            .string()
+            .min(3, { message: "Name must be at least 3 characters long" })
+        : z.string().optional(),
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string().min(6, {
+      message: "Password must be at least 6 characters long",
+    }),
   });
 };
 
@@ -120,6 +126,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 name="name"
                 label="Name"
                 placeholder="Enter your name"
+                errorMessage={form.formState.errors.name?.message}
               />
             )}
 
@@ -129,6 +136,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               label="Email address"
               placeholder="Enter your email address"
               type="email"
+              errorMessage={form.formState.errors.email?.message}
             />
 
             <InputField
@@ -137,9 +145,16 @@ const AuthForm = ({ type }: { type: FormType }) => {
               label="Password"
               placeholder="Enter your password"
               type="password"
+              errorMessage={form.formState.errors.password?.message}
             />
 
-            <Button className="btn" type="submit">
+            <Button
+              className={`btn ${
+                form.formState.isSubmitting ? "cursor-not-allowed" : ""
+              }`}
+              type="submit"
+              disabled={form.formState.isSubmitting}
+            >
               {isSignInForm ? "Sign in" : "Create an account"}
             </Button>
           </form>
