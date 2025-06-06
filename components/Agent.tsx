@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { vapi } from "@/lib/vapi.sdk";
 import { ROUTES } from "@/constants/routes";
-import { generator } from "@/constants";
+import { interviewer } from "@/constants";
+import { createFeedback } from "@/lib/actions/general.action";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -20,7 +21,13 @@ interface SavedMessage {
   content: string;
 }
 
-const Agent = ({ userName, userId, type }: AgentProps) => {
+const Agent = ({
+  userName,
+  userId,
+  type,
+  interviewId,
+  questions,
+}: AgentProps) => {
   const router = useRouter();
 
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -33,9 +40,9 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
 
     const onMessage = (message: Message) => {
       if (message.type === "transcript" && message.transcriptType === "final") {
-        const newMessaege = { role: message.role, content: message.transcript };
+        const newMessage = { role: message.role, content: message.transcript };
 
-        setMessages((prevMessages) => [...prevMessages, newMessaege]);
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
       }
     };
 
@@ -61,9 +68,28 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
     };
   }, []);
 
+  const handleGenerateFeedback = async (messages: SavedMessage[]) => {
+    const { success, feedbackId: id } = await createFeedback({
+      interviewId: interviewId!,
+      userId: userId!,
+      transcript: messages,
+    });
+
+    if (success && id) {
+      router.push(ROUTES.FEEDBACK(interviewId!));
+    } else {
+      console.log("Error saving feedback");
+      router.push(ROUTES.HOME);
+    }
+  };
+
   useEffect(() => {
     if (callStatus === CallStatus.FINISHED) {
-      router.push(ROUTES.HOME);
+      if (type === "generate") {
+        router.push(ROUTES.HOME);
+      } else {
+        handleGenerateFeedback(messages);
+      }
     }
   }, [messages, callStatus, type, userId]);
 
@@ -75,28 +101,26 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
         undefined,
         {
           variableValues: { username: userName, userid: userId },
-
           clientMessages: ["transcript"],
-
           serverMessages: [],
         },
         undefined,
-        generator
+        process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID
       );
     } else {
-      // let formattedQuestions = "";
-      // if (questions) {
-      //   formattedQuestions = questions
-      //     .map((question) => `- ${question}`)
-      //     .join("\n");
-      // }
-      // await vapi.start(interviewer, {
-      //   variableValues: {
-      //     questions: formattedQuestions,
-      //   },
-      //   clientMessages: ["transcript"],
-      //   serverMessages: [],
-      // });
+      let formattedQuestions = "";
+      if (questions) {
+        formattedQuestions = questions
+          .map((question) => `- ${question}`)
+          .join("\n");
+      }
+      await vapi.start(interviewer, {
+        variableValues: {
+          questions: formattedQuestions,
+        },
+        clientMessages: ["transcript"],
+        serverMessages: [],
+      });
     }
   };
 
