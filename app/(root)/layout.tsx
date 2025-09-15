@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
+import SignOutButton from "@/components/SignOutButton";
 
 const RootLayout = async ({
   children,
@@ -14,12 +15,15 @@ const RootLayout = async ({
 
   return (
     <div className="root-layout">
-      <nav>
+      <nav className="flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.svg" alt="Logo" width={38} height={32} />
 
           <h2 className="text-primary-100">PrepWise</h2>
         </Link>
+        <div className="ml-auto">
+          <SignOutButton />
+        </div>
       </nav>
 
       {children}

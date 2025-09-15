@@ -111,3 +111,22 @@ export async function isAuthenticated() {
   const user = await getCurrentUser();
   return !!user;
 }
+
+export async function signOut() {
+  const cookieStore = await cookies();
+
+  // Remove the session cookie by expiring it and deleting it
+  cookieStore.set(COOKIE_SESSION_KEY, "", {
+    maxAge: 0,
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    path: ROUTES.HOME,
+    sameSite: "lax",
+  });
+  cookieStore.delete(COOKIE_SESSION_KEY);
+
+  // Redirect to sign-in after clearing the session
+  // Import redirect lazily to avoid edge/runtime issues in some environments
+  const { redirect } = await import("next/navigation");
+  redirect(ROUTES.SIGN_IN);
+}
