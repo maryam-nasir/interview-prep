@@ -12,7 +12,7 @@ A job interview preparation platform powered by Vapi AI Voice agents. It is buil
 - Zod
 - Tailwind CSS
 
-## Main Features:
+## Main Features
 
 - **Authentication**: Sign Up and Sign In using password/email authentication handled by Firebase.
 
